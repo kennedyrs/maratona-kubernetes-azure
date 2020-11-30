@@ -1,0 +1,169 @@
+docker build -t api-heroes .
+
+docker run -p 80:3000 api-heroes
+
+docker run -p 80:3000 --link mongo:mongo -e MONGO_URL=mongo api-heroes
+
+docker run -p 80:3000 --link maratonakubernetes_mongodb:mongo -e MONGO_URL=mongo api-heroes
+
+docker ps
+
+docker stop dc5aa1bc5f6c
+
+docker ps
+
+docker-compose up 
+
+docker login
+
+docker build -t kennedyrs/api-heroes:v1 .
+
+docker push kennedyrs/api-heroes:v1
+
+docker images | grep api-heroes
+
+docker rm 8efb0c8cd58d
+
+docker rmi 8efb0c8cd58d
+
+docker rmi af0250165384
+
+docker images | grep api-heroes
+
+docker rmi 8efb0c8cd58d
+
+docker ps
+
+docker ps -a
+
+docker rm 2ffc44624865 900a7e137dba 99cd5fbdf2cc 61cffc6ca276 dc5aa1bc5f6c
+
+docker rmi 8efb0c8cd58d
+
+docker images | grep api-heroes
+
+docker-compose up 
+
+docker ps
+
+docker ps -a
+
+
+
+## AZURE
+```bash
+brew update && brew install azure-cli
+
+az login
+
+az account set --subscription "Avaliação Gratuita"
+
+az group create --name k8s-curso --location eastus
+
+az acr create --resource-group k8s-curso --name k8simagens --sku Basic
+
+az acr create --resource-group k8s-curso --name k8simagens-curso --sku Basic
+
+az acr create --resource-group k8s-curso --name k8simagescurso --sku Basic
+
+az acr login --name k8s-curso
+
+az acr login --name k8simagescurso
+
+az acr list --resource-group k8s-curso --output table
+
+docker tag kennedyrs/api-heroes:v1 k8simagescurso.azurecr.io/api-heroes:v1
+
+docker images
+
+docker push k8simagescurso.azurecr.io/api-heroes:v1 
+
+az acr list --resource-group k8s-curso --output table
+
+ACR=k8simagescurso
+RESOURCE=k8s-curso
+LOCATION=eastus
+
+#-------- CONTAINER SERVICES -------#
+az container create --resource-group k8s-curso \
+  --name mongo --image mongo \
+  --cpu 1 --memory 1 \
+  --port 27017 \
+  --ip-address public
+
+az container logs --resource-group k8s-curso --name mongo
+
+az container show --resource-group k8s-curso --query ipAddress.ip
+MONGO_URL=52.255.208.121
+
+az acr update -n k8simagescurso --admin-enabled true
+
+az acr credential show -n k8simagescurso --query passwords
+PASS=9xZY9w2TTz+qvn7Yiy9S/q8kHzz5RrvE
+
+az container create --resource-group k8s-curso \
+  --name api-heroes --image k8simagescurso.azurecr.io/api-heroes:v1 \
+  --cpu 1 --memory 1 \
+  --port 3000 \
+  --environment-variables MONGO_URL=52.255.208.121 \
+  --registry-username k8simagescurso \
+  --registry-password 9xZY9w2TTz+qvn7Yiy9S/q8kHzz5RrvE \
+  --ip-address public
+
+API-HEROES_URL=52.191.227.123:3000
+
+az container logs --resource-group k8s-curso --name api-heroes
+
+
+#-------- AKS -------#
+az aks create -g k8s-curso \
+  --name k8s-cluster \
+  --dns-name-prefix k8s-cluster \
+  --generate-ssh-keys \
+  --node-count 2
+
+az aks install-cli
+
+az aks get-credentials --resource-group k8s-curso --name k8s-cluster
+
+kubectl get nodes
+
+kubectl config view --raw
+
+kubectl create clusterrolebinding kubernetes-dashboard \
+  --clusterrole=cluster-admin \
+  --serviceaccount=kube-system:kubernetes-dashboard
+
+az aks browse --resource-group k8s-curso --name k8s-cluster
+
+
+#-------- K8s - Pods -------#
+kubectl run mongo --image mongo --port 27017
+
+kubectl get pods
+
+kubectl delete pod mongo
+
+kubectl describe pods mongo
+
+kubectl top pod mongo
+
+kubectl get pods --output=wide
+10.244.0.8
+
+kubectl run api-heroes \
+  --image kennedyrs/api-heroes:v1 \
+  --env "MONGO_URL=10.244.0.8" \
+  --env "PORT=4000" \
+  --replicas 2
+
+kubectl logs api-heroes
+
+kubectl expose pod api-heroes --port 4000 --type LoadBalancer
+
+kubectl get services -w
+
+#-- Declarativo file
+
+
+```
