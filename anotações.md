@@ -60,10 +60,6 @@ az account set --subscription "Avaliação Gratuita"
 
 az group create --name k8s-curso --location eastus
 
-az acr create --resource-group k8s-curso --name k8simagens --sku Basic
-
-az acr create --resource-group k8s-curso --name k8simagens-curso --sku Basic
-
 az acr create --resource-group k8s-curso --name k8simagescurso --sku Basic
 
 az acr login --name k8s-curso
@@ -165,5 +161,26 @@ kubectl get services -w
 
 #-- Declarativo file
 
+Arquivo manifesto json || yml
 
+kubectl create -f heroes-pod.json
+
+kubectl describe pods api-heroes-ff
+
+kubectl delete pod api-heroes-ff
+
+kubectl delete pod -l version=v1
+
+kubectl logs api-heroes-ff
+
+kubectl exec -it api-heroes-ff -- /bin/bash
+kubectl exec -it api-heroes-ff -- /bin/sh
+
+kubectl explain pods
+
+kubectl get pod api-heroes-ff -o yaml
+kubectl get pod api-heroes-ff -o json
+
+
+#--------SECRETS
 ```
