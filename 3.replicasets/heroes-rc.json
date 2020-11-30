@@ -1,0 +1,52 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "ReplicaSet",
+  "metadata": {
+    "name": "api-heroes-ffs",
+    "labels": {
+      "app": "api-heroes-ffs",
+      "version": "v1"
+    }
+  },
+  "spec": {
+    "replicas": 8,
+    "selector": {
+      "matchLabels": {
+        "version": "v1",
+        "app": "api-heroes-ffs"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "version": "v1",
+          "app": "api-heroes-ffs"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "api-heroes-ffs",
+            "image": "k8simagescurso.azurecr.io/api-heroes:v1",
+            "ports": [{
+              "containerPort": 4000
+            }],
+            "env": [
+              {
+                "name": "MONGO_URL",
+                "value": "10.244.0.8"
+              },
+              {
+                "name": "PORT",
+                "value": "4000"
+              }
+            ]
+          }
+        ],
+        "imagePullSecrets": [{
+          "name": "acr-credentials"
+        }]
+      }
+    }
+  }
+}
