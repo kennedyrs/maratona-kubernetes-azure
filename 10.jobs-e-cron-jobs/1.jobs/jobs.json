@@ -1,0 +1,26 @@
+{
+  "apiVersion": "batch/v1",
+  "kind": "Job",
+  "metadata": {
+    "name": "job-starwars"
+  },
+  "spec": {
+    "parallelism": 2,
+    "completions": 5,
+    "backoffLimit": 4,
+    "template": {
+      "spec":{
+        "restartPolicy": "Never",
+        "containers": [{
+          "name": "job-starwars",
+          "image": "kennedyrs/k8s-job-starwars-example:v1",
+          "env": [{
+            "name": "MONGO_URL",
+            "value": "mongo-svc"
+          }]
+
+        }]
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "apiVersion": "batch/v1beta1",
+  "kind": "CronJob",
+  "metadata": {
+    "name": "cron-starwars"
+  },
+  "spec": {
+    "schedule": "*/1 * * * *",
+    "jobTemplate": {
+      "spec":{
+        "template": {
+          "spec":{
+            "containers": [{
+              "name": "job-starwars",
+              "image": "kennedyrs/k8s-job-starwars-example:v1",
+              "env": [{
+                "name": "MONGO_URL",
+                "value": "mongo-svc"
+              }]
+            }],
+            "restartPolicy": "OnFailure"
+          }
+        }
+      }
+    }
+  }
+}
