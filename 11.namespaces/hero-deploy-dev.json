@@ -1,0 +1,53 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "namespace": "development",
+    "name": "api-heroes-deployment",
+    "labels": {
+      "app": "api-heroes",
+      "version": "v1"
+    }
+  },
+  "spec": {
+    "replicas": 5,
+    "selector": {
+      "matchLabels": {
+        "app": "api-heroes",
+        "version": "v1"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels":{
+          "app": "api-heroes",
+          "version": "v1"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "api-heroes",
+            "image": "k8simagescurso.azurecr.io/api-heroes:v1",
+            "ports": [
+              {
+                "containerPort": 4000
+              }
+            ],
+            "env": [
+              {
+                "name": "MONGO_URL",
+                "value": "mongo-svc"
+              },
+              {
+                "name": "PORT",
+                "value": "4000"  
+              }
+            ]
+          }
+        ],
+        "imagePullSecrets": [{ "name": "acr-credentials" }]
+      }
+    }
+  }
+}
