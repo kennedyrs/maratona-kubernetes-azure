@@ -35,7 +35,7 @@
         "containers": [
           {
             "name": "api-heroes",
-            "image": "k8simagescurso.azurecr.io/api-heroes:latest",
+            "image": "k8snewimagescurso.azurecr.io/api-heroes:latest",
             "imagePullPolicy": "Always",
             "ports": [
               {

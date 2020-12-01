@@ -58,27 +58,25 @@ az login
 
 az account set --subscription "Avaliação Gratuita"
 
-az group create --name k8s-curso --location eastus
+az group create --name k8s-curso --location eastus || brazilsouth
 
-az acr create --resource-group k8s-curso --name k8simagescurso --sku Basic
+az acr create --resource-group k8s-curso --name k8snewimagescurso --sku Basic
 
-az acr login --name k8s-curso
-
-az acr login --name k8simagescurso
+az acr login --name k8snewimagescurso
 
 az acr list --resource-group k8s-curso --output table
 
-docker tag kennedyrs/api-heroes:v1 k8simagescurso.azurecr.io/api-heroes:v1
+docker tag kennedyrs/api-heroes:v1 k8snewimagescurso.azurecr.io/api-heroes:v1
 
 docker images
 
-docker push k8simagescurso.azurecr.io/api-heroes:v1 
+docker push k8snewimagescurso.azurecr.io/api-heroes:v1 
 
 az acr list --resource-group k8s-curso --output table
 
-ACR=k8simagescurso
+ACR=k8snewimagescurso
 RESOURCE=k8s-curso
-LOCATION=eastus
+LOCATION=brazilsouth
 
 #-------- CONTAINER SERVICES -------#
 az container create --resource-group k8s-curso \
@@ -92,17 +90,17 @@ az container logs --resource-group k8s-curso --name mongo
 az container show --resource-group k8s-curso --query ipAddress.ip
 MONGO_URL=52.255.208.121
 
-az acr update -n k8simagescurso --admin-enabled true
+az acr update -n k8snewimagescurso --admin-enabled true
 
-az acr credential show -n k8simagescurso --query passwords
-PASS=9xZY9w2TTz+qvn7Yiy9S/q8kHzz5RrvE
+az acr credential show -n k8snewimagescurso --query passwords
+PASS=nopqteA=fqIAR7TzimsVo2+33G+9AF8W
 
 az container create --resource-group k8s-curso \
-  --name api-heroes --image k8simagescurso.azurecr.io/api-heroes:v1 \
+  --name api-heroes --image k8snewimagescurso.azurecr.io/api-heroes:v1 \
   --cpu 1 --memory 1 \
   --port 3000 \
   --environment-variables MONGO_URL=52.255.208.121 \
-  --registry-username k8simagescurso \
+  --registry-username k8snewimagescurso \
   --registry-password 9xZY9w2TTz+qvn7Yiy9S/q8kHzz5RrvE \
   --ip-address public
 
@@ -120,7 +118,7 @@ az aks create -g k8s-curso \
 
 az aks install-cli
 
-az aks get-credentials --resource-group k8s-curso --name k8s-cluster
+az aks get-credentials --resource-group k8s-curso --name k8s-cluster --admin
 
 kubectl get nodes
 
@@ -132,7 +130,7 @@ kubectl create clusterrolebinding kubernetes-dashboard \
 
 az aks browse --resource-group k8s-curso --name k8s-cluster
 
-
+clusterUser_k8s-curso_k8s-cluster
 #-------- K8s - Pods -------#
 kubectl run mongo --image mongo --port 27017
 

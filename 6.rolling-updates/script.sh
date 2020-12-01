@@ -1,6 +1,6 @@
 az acr login --name k8simagescurso
 
-docker build -t k8simagescurso.azurecr.io/api-heroes:latest .
+docker build -t k8snewimagescurso.azurecr.io/api-heroes:latest .
 
 docker push k8simagescurso.azurecr.io/api-heroes:latest
 

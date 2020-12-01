@@ -1,7 +1,7 @@
 kubectl create secret docker-registry acr-credentials \
-  --docker-server=k8simagescurso.azurecr.io \
-  --docker-username=k8simagescurso \
-  --docker-password=9xZY9w2TTz+qvn7Yiy9S/q8kHzz5RrvE \
+  --docker-server=k8snewimagescurso.azurecr.io \
+  --docker-username=k8snewimagescurso \
+  --docker-password=nopqteA=fqIAR7TzimsVo2+33G+9AF8W \
   --docker-email=kennedywork202@gmail.com
   
 kubectl get secret
