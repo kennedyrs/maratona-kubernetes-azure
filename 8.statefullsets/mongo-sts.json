@@ -1,0 +1,62 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "StatefulSet",
+  "metadata": {
+    "name": "mongodb",
+    "labels": {
+      "app": "mongodb"
+    }
+  },
+  "spec": {
+    "serviceName": "mongo-svc",
+    "replicas": 2,
+    "selector": {
+      "matchLabels": {
+        "app": "mongodb"
+      }
+    },
+    "volumeClaimTemplates": [
+      {
+        "metadata": {
+          "name": "storage-mongodb"
+        },
+        "spec": {
+          "storageClassName": "default",
+          "accessModes": ["ReadWriteOnce"],
+          "resources": {
+            "requests": {
+              "storage": "5Gi"
+            }
+          }
+        }
+      }
+    ],
+    "template": {
+      "metadata":{
+        "labels": {
+          "app": "mongodb"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "mongodb",
+            "image": "mongo",
+            "ports": [
+              {
+                "containerPort": 27017,
+                "name": "mongodb"
+              }
+            ],
+            "volumeMounts": [
+              {
+                "mountPath": "/data/db",
+                "name": "storage-mongodb"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
